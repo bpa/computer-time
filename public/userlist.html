@@ -1,0 +1,25 @@
+<h1>User List</h1>
+<button class="btn btn-default btn-lg" type="button" *ngFor="let user of users" (click)="select(user)">
+{{user}}
+</button>
+<div class="well" *ngIf="user">
+{{id}}
+<button class="btn btn-default" (click)="save()">Save</button>
+<button class="btn" (click)="toggleActive()"
+  [ngClass]="{'btn-success':user.active,'btn-danger':!user.active}">{{activeText}}</button>
+<table>
+  <tr>
+    <th>&nbsp;</th><th class="text-center" *ngFor="let hr of hours">{{hr>12?hr-12:hr}}</th>
+  </tr>
+  <tr *ngFor="let day of days; let d=index">
+    <td>{{day}}</td>
+    <td *ngFor="let hr of hours; let h=index" [attr.data-d]="d" [attr.data-h]="h"
+        (mousedown)="start(d,h,$event)"
+        (touchstart)="start(d,h,$event)"
+        (mouseenter)="toggle(d,h,$event)"
+        (touchmove)="touchMove($event)"
+        (touchend)="stop()" (mouseup)="stop()"
+        class="time" [ngClass]="{'open':!!user.open[d][h]}">&nbsp;</td>
+  </tr>
+</table>
+</div>

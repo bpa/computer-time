@@ -1,3 +1,4 @@
+/users.db
 /blib/
 /.build/
 _build/
@@ -18,3 +19,15 @@ nytprof.out
 *.o
 *.bs
 /_eumm/
+node_modules
+
+# swap
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+# session
+Session.vim
+# temporary
+.netrwhist
+*~
+# auto-generated tag files
+tags
