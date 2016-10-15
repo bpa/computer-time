@@ -13,13 +13,13 @@
   </tr>
   <tr *ngFor="let day of days; let d=index">
     <td>{{day}}</td>
-    <td *ngFor="let hr of hours; let h=index" [attr.data-d]="d" [attr.data-h]="h"
+    <td *ngFor="let h of hours" [attr.data-d]="d" [attr.data-h]="h"
         (mousedown)="start(d,h,$event)"
         (touchstart)="start(d,h,$event)"
         (mouseenter)="toggle(d,h,$event)"
         (touchmove)="touchMove($event)"
         (touchend)="stop()" (mouseup)="stop()"
-        class="time" [ngClass]="{'open':!!user.open[d][h]}">&nbsp;</td>
+        class="time" [ngClass]="{'open':user.open[d][h]}">&nbsp;</td>
   </tr>
 </table>
 </div>

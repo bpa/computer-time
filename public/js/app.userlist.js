@@ -26,36 +26,39 @@
         self.id = user;
         self.userService.get(user).subscribe(function(data){
             self.user = data;
-            if (!self.user.open) {
-                self.user.open = [[],[],[],[],[],[],[]];
-            }
             self.activeText = data.active ? 'Enabled' : 'Disabled';
+            console.log(self.user);
         });
+      },
+      allow: function(d, h) {
+        this.user.open[d][h] = true;
+      },
+      deny: function(d, h) {
+        delete this.user.open[d][h];
       },
       save: function() {
         this.userService.set(this.id, this.user);
       },
       start: function(d, h, ev) {
         ev.preventDefault();
-        this.setting = true;
-        this.set_value = !this.user.open[d][h];
-        this.user.open[d][h] = this.set_value;
+        this.set_value = this.user.open[d][h] ? this.deny : this.allow;
+        this.set_value(d, h);
       },
       touchMove: function(ev) {
         var t = ev.changedTouches[0];
         var el = document.elementFromPoint(t.pageX, t.pageY);
         if (el.dataset.d !== undefined) {
-            this.user.open[el.dataset.d][el.dataset.h] = this.set_value;
+            this.set_value(el.dataset.d, el.dataset.h);
         }
       },
       toggle: function(d, h, ev) {
-        if (ev.buttons & 1 && this.setting) {
-            this.user.open[d][h] = this.set_value;
+        if (ev.buttons & 1 && this.set_value) {
+            this.set_value(d, h);
         }
         return false;
       },
       stop: function() {
-        this.setting = false;
+        this.set_value = false;
       },
       toggleActive: function(){
         this.user.active = !this.user.active;
