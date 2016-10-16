@@ -31,7 +31,7 @@
         });
       },
       allow: function(d, h) {
-        this.user.open[d][h] = true;
+        this.user.open[d][h] = 1;
       },
       deny: function(d, h) {
         delete this.user.open[d][h];

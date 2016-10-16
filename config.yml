@@ -1,7 +1,8 @@
 ---
 appname: "computer-time"
 charset: "UTF-8"
-layout: 'main'
 logger: 'console'
 serializer: 'JSON'
-show_errors: 1
+show_errors: 0
+startup_info: 0
+log: 'warning'
