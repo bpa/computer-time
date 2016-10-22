@@ -2,22 +2,10 @@ package Permissions::linux;
 
 use parent 'Permissions';
 use File::Slurp;
-use Time::Piece;
-
-use constant DATA_DIR => "/var/lib/computer-time/";
-mkdir DATA_DIR;
 
 sub apply {
-    my ($self, $user, $data) = @_;
-    my $t = localtime;
-    my $d = ($t->wday + 5) % 7;
-
-    if ($data->{active} && $data->{open}[$d]{$t->hour}) {
-        $self->unlock($user);
-    }
-    else {
-        $self->lock($user);
-    }
+	#Lock and unlock will be called to apply changes
+	#Linux relies on a cron to call service which will call lock and unlock appropriately
 }
 
 sub discover {

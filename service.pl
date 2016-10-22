@@ -2,6 +2,8 @@
 
 $^O = 'dev' if grep { /-dev/ } @ARGV;
 
+use FindBin;
+use lib "$FindBin::Bin/lib";
 use Dancer2;
 use Permissions;
 use JSON::XS;
@@ -44,13 +46,13 @@ get '/refresh' => sub {
 };
 
 post '/user/:id' => sub {
-    $p->set(param('id'), request->data);
+        $p->set(param('id'), request->data);
     if (config->{slaves}) {
         for my $s (@{config->{slaves}}) {
             eval {
                 $ua->post("http://$s:" . config->{port} . '/user/' . param('id'),
                 'Content-Type' => 'application/json', encode_json(request->data));
-            }
+    }
         }
     }
     return {};

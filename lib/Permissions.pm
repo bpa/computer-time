@@ -9,17 +9,18 @@ Permissions - Restrict computer times
 our $VERSION = '1.0';
 
 use DB_File;
+use Time::Piece;
 use Storable qw/freeze thaw/;
 
 sub new {
     my $pkg = "Permissions::$^O";
     my $path = "Permissions/$^O.pm";
     require $path;
-    my $X = tie my %user, 'DB_File', 'users.db';
+	my $X = tie my %user, 'DB_File', 'users.db';
     return bless {
-        X    => $X,
-        user => \%user
-    }, $pkg;
+		X    => $X,
+		user => \%user,
+	}, $pkg;
 }
 
 sub apply {
@@ -36,6 +37,16 @@ sub set {
     $self->{user}{$id} = freeze($data);
     $self->{X}->sync;
     $self->apply($id, $data);
+
+    my $t = localtime;
+    my $d = ($t->wday + 5) % 7;
+
+    if ($data->{active} && $data->{open}[$d]{$t->hour}) {
+        $self->unlock($id);
+    }
+    else {
+        $self->lock($id);
+    }
 }
 
 sub users {
@@ -49,4 +60,7 @@ sub refresh {
     }
 }
 
+sub lock { }
+
+sub unlock { }
 1;
