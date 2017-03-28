@@ -12,9 +12,9 @@
       }],
       ngOnInit: function() {
         var self = this;
-        self.days = ['M','Tu','W','Th','F','S'];
+        self.days = ['M','Tu','W','Th','F','S','Su'];
         self.hours = [];
-        for (var i=9; i<=21; i++) {
+        for (var i=8; i<=22; i++) {
             self.hours.push(i);
         }
         self.userService.getNames().subscribe(function(data){
