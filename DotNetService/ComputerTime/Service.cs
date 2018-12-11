@@ -9,7 +9,7 @@ namespace ComputerTime
 {
     public partial class Service : ServiceBase
     {
-        BroadcastListener listener = new BroadcastListener();
+        BroadcastListener listener = new BroadcastListener(new Users());
 
         public Service()
         {

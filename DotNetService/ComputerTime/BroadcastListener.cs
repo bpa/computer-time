@@ -1,7 +1,10 @@
-﻿using System.Linq;
+﻿using Google.Protobuf;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+
+using static Message.Types.Type;
 
 namespace ComputerTime
 {
@@ -11,6 +14,12 @@ namespace ComputerTime
         private UdpClient listener;
         private Thread listenThread;
         private Socket s;
+        private Users users;
+
+        internal BroadcastListener(Users users)
+        {
+            this.users = users;
+        }
 
         internal void Start()
         {
@@ -36,7 +45,19 @@ namespace ComputerTime
                 while (true)
                 {
                     byte[] bytes = listener.Receive(ref recieveEP);
-                    s.SendTo(bytes, sendEP);
+                    Message message = Message.Parser.ParseFrom(bytes);
+                    switch (message.Type)
+                    {
+                        case ListUserRequest:
+                            Message response = new Message
+                            {
+                                Type = ListUserResponse,
+                                StringArray = new StringArray()
+                            };
+                            response.StringArray.Value.Add(users.List());
+                            s.SendTo(response.ToByteArray(), sendEP);
+                            break;
+                    }
                 }
             }
             catch (SocketException)
