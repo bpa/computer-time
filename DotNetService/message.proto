@@ -2,15 +2,20 @@ syntax="proto3";
 
 message Message {
   enum Type {
-    LIST_USER_REQUEST = 0;
-    LIST_USER_RESPONSE = 1;
+    LIST_ACCOUNT_REQUEST = 0;
+    LIST_ACCOUNT_RESPONSE = 1;
   }
   Type type = 1;
   oneof payload {
-    StringArray string_array = 2;
+    HostAccounts host_accounts = 2;
   }
 }
 
-message StringArray {
-  repeated string value = 1;
+message HostAccounts {
+  string host = 1;
+  repeated Account accounts = 2;
+}
+
+message Account {
+  string name = 1;
 }

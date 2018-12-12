@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Google.Protobuf;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Management;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ComputerTime
 {
@@ -14,6 +12,16 @@ namespace ComputerTime
             ManagementObject obj = new ManagementObject((String)mo[reference]);
             obj.Get();
             return obj;
+        }
+
+        public static byte[] ToListAccountResponse(this HostAccounts accounts)
+        {
+            Message response = new Message
+            {
+                Type = Message.Types.Type.ListAccountResponse,
+                HostAccounts = accounts
+            };
+            return response.ToByteArray();
         }
     }
 }

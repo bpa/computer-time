@@ -1,5 +1,4 @@
-﻿using Google.Protobuf;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -48,14 +47,8 @@ namespace ComputerTime
                     Message message = Message.Parser.ParseFrom(bytes);
                     switch (message.Type)
                     {
-                        case ListUserRequest:
-                            Message response = new Message
-                            {
-                                Type = ListUserResponse,
-                                StringArray = new StringArray()
-                            };
-                            response.StringArray.Value.Add(users.List());
-                            s.SendTo(response.ToByteArray(), sendEP);
+                        case ListAccountRequest:
+                            s.SendTo(users.List().ToListAccountResponse(), sendEP);
                             break;
                     }
                 }
