@@ -48,7 +48,10 @@ namespace ComputerTime
                     switch (message.Type)
                     {
                         case ListAccountRequest:
-                            s.SendTo(users.List().ToListAccountResponse(), sendEP);
+                            s.SendTo(users.ListAccounts().ToListAccountResponse(), sendEP);
+                            break;
+                        case AccountSettingsRequest:
+                            s.SendTo(users.GetAccountSettings(message.User).ToAccountSettingsResponse(), sendEP);
                             break;
                     }
                 }

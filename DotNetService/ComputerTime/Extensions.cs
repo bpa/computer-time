@@ -23,5 +23,15 @@ namespace ComputerTime
             };
             return response.ToByteArray();
         }
+
+        public static byte[] ToAccountSettingsResponse(this AccountSettings accounts)
+        {
+            Message response = new Message
+            {
+                Type = Message.Types.Type.AccountSettingsResponse,
+                AccountSettings = accounts
+            };
+            return response.ToByteArray();
+        }
     }
 }
