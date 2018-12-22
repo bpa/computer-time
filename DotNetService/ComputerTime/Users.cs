@@ -37,7 +37,7 @@ namespace ComputerTime
                 settings.Disabled = (info.usri2_flags & UF_ACCOUNTDISABLE) > 0;
                 byte[] hours = new byte[21];
                 Marshal.Copy(info.usri2_logon_hours, hours, 0, 21);
-                settings.LogonHours = ByteString.CopyFrom(hours);
+                settings.LogonHours = ByteString.CopyFrom(hours.FromGMT());
                 return settings;
             });
         }

@@ -6,6 +6,10 @@ message Message {
     LIST_ACCOUNT_RESPONSE = 1;
 	ACCOUNT_SETTINGS_REQUEST = 3;
 	ACCOUNT_SETTINGS_RESPONSE = 4;
+	ENABLE_REQUEST = 5;
+	DISABLE_REQUEST = 6;
+	SET_LOGON_HOURS_REQUEST = 7;
+	ERROR_RESPONSE = 8;
   }
   string authentication = 1;
   Type type = 2;
@@ -13,6 +17,8 @@ message Message {
     HostAccounts host_accounts = 3;
 	string user = 4;
 	AccountSettings account_settings = 5;
+	SetHours set_hours = 6;
+	uint32 error = 7;
   }
 }
 
@@ -29,4 +35,9 @@ message AccountSettings {
   string name = 1;
   bool disabled = 2;
   bytes logon_hours = 3;
+}
+
+message SetHours {
+  string name = 1;
+  bytes logon_hours = 2;
 }

@@ -30,8 +30,36 @@ namespace ComputerTime
             }
         }
 
+        internal static int SetLogonHours(string username, byte[] hours)
+        {
+            var userInfo = new USER_INFO_1020 {
+                usri1020_units_per_week = 7 * 24,
+                usri1020_logon_hours = Marshal.UnsafeAddrOfPinnedArrayElement(hours, 0)
+            };
+            return NetUserSetInfo(null, username, 1020, ref userInfo, out uint parm_err);
+        }
+
+        internal static int SetEnabled(string username, bool enabled)
+        {
+            return NetUserGetInfo(username, info => {
+                var flags = new USER_INFO_1008();
+                if (enabled) flags.usri1008_flags = info.usri2_flags & ~UF_ACCOUNTDISABLE;
+                else flags.usri1008_flags = info.usri2_flags | UF_ACCOUNTDISABLE;
+                return NetUserSetInfo(null, username, 1008, ref flags, out uint parm_err);
+            });
+        }
+
         [DllImport("Netapi32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
         private static extern int NetUserGetInfo([MarshalAs(UnmanagedType.LPWStr)] string ServerName, [MarshalAs(UnmanagedType.LPWStr)] string UserName, int level, out IntPtr BufPtr);
+
+        [DllImport("netapi32.dll", CharSet = CharSet.Unicode)]
+        private static extern int NetUserSetInfo([MarshalAs(UnmanagedType.LPWStr)] string servername, string username, int level, ref USER_INFO_2 buf, out UInt32 parm_err);
+
+        [DllImport("netapi32.dll", CharSet = CharSet.Unicode)]
+        private static extern int NetUserSetInfo([MarshalAs(UnmanagedType.LPWStr)] string servername, string username, int level, ref USER_INFO_1008 buf, out UInt32 parm_err);
+
+        [DllImport("netapi32.dll", CharSet = CharSet.Unicode)]
+        private static extern int NetUserSetInfo([MarshalAs(UnmanagedType.LPWStr)] string servername, string username, int level, ref USER_INFO_1020 buf, out UInt32 parm_err);
 
         [DllImport("Netapi32.dll", SetLastError = true)]
         private static extern int NetApiBufferFree(IntPtr Buffer);
@@ -62,6 +90,17 @@ namespace ComputerTime
             [MarshalAs(UnmanagedType.LPWStr)] public string usri2_logon_server;
             public uint usri2_country_code;
             public uint usri2_code_page;
+        }
+
+        public struct USER_INFO_1008
+        {
+            public uint usri1008_flags;
+        }
+
+        public struct USER_INFO_1020
+        {
+            public uint usri1020_units_per_week;
+            public IntPtr usri1020_logon_hours;
         }
     }
 }

@@ -22,24 +22,29 @@ public static partial class MessageReflection {
   static MessageReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "Cg1tZXNzYWdlLnByb3RvIqkCCgdNZXNzYWdlEhYKDmF1dGhlbnRpY2F0aW9u",
+          "Cg1tZXNzYWdlLnByb3RvIrUDCgdNZXNzYWdlEhYKDmF1dGhlbnRpY2F0aW9u",
           "GAEgASgJEhsKBHR5cGUYAiABKA4yDS5NZXNzYWdlLlR5cGUSJgoNaG9zdF9h",
           "Y2NvdW50cxgDIAEoCzINLkhvc3RBY2NvdW50c0gAEg4KBHVzZXIYBCABKAlI",
           "ABIsChBhY2NvdW50X3NldHRpbmdzGAUgASgLMhAuQWNjb3VudFNldHRpbmdz",
-          "SAAieAoEVHlwZRIYChRMSVNUX0FDQ09VTlRfUkVRVUVTVBAAEhkKFUxJU1Rf",
-          "QUNDT1VOVF9SRVNQT05TRRABEhwKGEFDQ09VTlRfU0VUVElOR1NfUkVRVUVT",
-          "VBADEh0KGUFDQ09VTlRfU0VUVElOR1NfUkVTUE9OU0UQBEIJCgdwYXlsb2Fk",
-          "IjgKDEhvc3RBY2NvdW50cxIMCgRob3N0GAEgASgJEhoKCGFjY291bnRzGAIg",
-          "AygLMgguQWNjb3VudCIXCgdBY2NvdW50EgwKBG5hbWUYASABKAkiRgoPQWNj",
-          "b3VudFNldHRpbmdzEgwKBG5hbWUYASABKAkSEAoIZGlzYWJsZWQYAiABKAgS",
-          "EwoLbG9nb25faG91cnMYAyABKAxiBnByb3RvMw=="));
+          "SAASHgoJc2V0X2hvdXJzGAYgASgLMgkuU2V0SG91cnNIABIPCgVlcnJvchgH",
+          "IAEoDUgAItIBCgRUeXBlEhgKFExJU1RfQUNDT1VOVF9SRVFVRVNUEAASGQoV",
+          "TElTVF9BQ0NPVU5UX1JFU1BPTlNFEAESHAoYQUNDT1VOVF9TRVRUSU5HU19S",
+          "RVFVRVNUEAMSHQoZQUNDT1VOVF9TRVRUSU5HU19SRVNQT05TRRAEEhIKDkVO",
+          "QUJMRV9SRVFVRVNUEAUSEwoPRElTQUJMRV9SRVFVRVNUEAYSGwoXU0VUX0xP",
+          "R09OX0hPVVJTX1JFUVVFU1QQBxISCg5FUlJPUl9SRVNQT05TRRAIQgkKB3Bh",
+          "eWxvYWQiOAoMSG9zdEFjY291bnRzEgwKBGhvc3QYASABKAkSGgoIYWNjb3Vu",
+          "dHMYAiADKAsyCC5BY2NvdW50IhcKB0FjY291bnQSDAoEbmFtZRgBIAEoCSJG",
+          "Cg9BY2NvdW50U2V0dGluZ3MSDAoEbmFtZRgBIAEoCRIQCghkaXNhYmxlZBgC",
+          "IAEoCBITCgtsb2dvbl9ob3VycxgDIAEoDCItCghTZXRIb3VycxIMCgRuYW1l",
+          "GAEgASgJEhMKC2xvZ29uX2hvdXJzGAIgASgMYgZwcm90bzM="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::Message), global::Message.Parser, new[]{ "Authentication", "Type", "HostAccounts", "User", "AccountSettings" }, new[]{ "Payload" }, new[]{ typeof(global::Message.Types.Type) }, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::Message), global::Message.Parser, new[]{ "Authentication", "Type", "HostAccounts", "User", "AccountSettings", "SetHours", "Error" }, new[]{ "Payload" }, new[]{ typeof(global::Message.Types.Type) }, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::HostAccounts), global::HostAccounts.Parser, new[]{ "Host", "Accounts" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::Account), global::Account.Parser, new[]{ "Name" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::AccountSettings), global::AccountSettings.Parser, new[]{ "Name", "Disabled", "LogonHours" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::AccountSettings), global::AccountSettings.Parser, new[]{ "Name", "Disabled", "LogonHours" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::SetHours), global::SetHours.Parser, new[]{ "Name", "LogonHours" }, null, null, null)
         }));
   }
   #endregion
@@ -82,6 +87,12 @@ public sealed partial class Message : pb::IMessage<Message> {
         break;
       case PayloadOneofCase.AccountSettings:
         AccountSettings = other.AccountSettings.Clone();
+        break;
+      case PayloadOneofCase.SetHours:
+        SetHours = other.SetHours.Clone();
+        break;
+      case PayloadOneofCase.Error:
+        Error = other.Error;
         break;
     }
 
@@ -148,6 +159,28 @@ public sealed partial class Message : pb::IMessage<Message> {
     }
   }
 
+  /// <summary>Field number for the "set_hours" field.</summary>
+  public const int SetHoursFieldNumber = 6;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public global::SetHours SetHours {
+    get { return payloadCase_ == PayloadOneofCase.SetHours ? (global::SetHours) payload_ : null; }
+    set {
+      payload_ = value;
+      payloadCase_ = value == null ? PayloadOneofCase.None : PayloadOneofCase.SetHours;
+    }
+  }
+
+  /// <summary>Field number for the "error" field.</summary>
+  public const int ErrorFieldNumber = 7;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public uint Error {
+    get { return payloadCase_ == PayloadOneofCase.Error ? (uint) payload_ : 0; }
+    set {
+      payload_ = value;
+      payloadCase_ = PayloadOneofCase.Error;
+    }
+  }
+
   private object payload_;
   /// <summary>Enum of possible cases for the "payload" oneof.</summary>
   public enum PayloadOneofCase {
@@ -155,6 +188,8 @@ public sealed partial class Message : pb::IMessage<Message> {
     HostAccounts = 3,
     User = 4,
     AccountSettings = 5,
+    SetHours = 6,
+    Error = 7,
   }
   private PayloadOneofCase payloadCase_ = PayloadOneofCase.None;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -186,6 +221,8 @@ public sealed partial class Message : pb::IMessage<Message> {
     if (!object.Equals(HostAccounts, other.HostAccounts)) return false;
     if (User != other.User) return false;
     if (!object.Equals(AccountSettings, other.AccountSettings)) return false;
+    if (!object.Equals(SetHours, other.SetHours)) return false;
+    if (Error != other.Error) return false;
     if (PayloadCase != other.PayloadCase) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
@@ -198,6 +235,8 @@ public sealed partial class Message : pb::IMessage<Message> {
     if (payloadCase_ == PayloadOneofCase.HostAccounts) hash ^= HostAccounts.GetHashCode();
     if (payloadCase_ == PayloadOneofCase.User) hash ^= User.GetHashCode();
     if (payloadCase_ == PayloadOneofCase.AccountSettings) hash ^= AccountSettings.GetHashCode();
+    if (payloadCase_ == PayloadOneofCase.SetHours) hash ^= SetHours.GetHashCode();
+    if (payloadCase_ == PayloadOneofCase.Error) hash ^= Error.GetHashCode();
     hash ^= (int) payloadCase_;
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
@@ -232,6 +271,14 @@ public sealed partial class Message : pb::IMessage<Message> {
       output.WriteRawTag(42);
       output.WriteMessage(AccountSettings);
     }
+    if (payloadCase_ == PayloadOneofCase.SetHours) {
+      output.WriteRawTag(50);
+      output.WriteMessage(SetHours);
+    }
+    if (payloadCase_ == PayloadOneofCase.Error) {
+      output.WriteRawTag(56);
+      output.WriteUInt32(Error);
+    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -254,6 +301,12 @@ public sealed partial class Message : pb::IMessage<Message> {
     }
     if (payloadCase_ == PayloadOneofCase.AccountSettings) {
       size += 1 + pb::CodedOutputStream.ComputeMessageSize(AccountSettings);
+    }
+    if (payloadCase_ == PayloadOneofCase.SetHours) {
+      size += 1 + pb::CodedOutputStream.ComputeMessageSize(SetHours);
+    }
+    if (payloadCase_ == PayloadOneofCase.Error) {
+      size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Error);
     }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
@@ -287,6 +340,15 @@ public sealed partial class Message : pb::IMessage<Message> {
           AccountSettings = new global::AccountSettings();
         }
         AccountSettings.MergeFrom(other.AccountSettings);
+        break;
+      case PayloadOneofCase.SetHours:
+        if (SetHours == null) {
+          SetHours = new global::SetHours();
+        }
+        SetHours.MergeFrom(other.SetHours);
+        break;
+      case PayloadOneofCase.Error:
+        Error = other.Error;
         break;
     }
 
@@ -331,6 +393,19 @@ public sealed partial class Message : pb::IMessage<Message> {
           AccountSettings = subBuilder;
           break;
         }
+        case 50: {
+          global::SetHours subBuilder = new global::SetHours();
+          if (payloadCase_ == PayloadOneofCase.SetHours) {
+            subBuilder.MergeFrom(SetHours);
+          }
+          input.ReadMessage(subBuilder);
+          SetHours = subBuilder;
+          break;
+        }
+        case 56: {
+          Error = input.ReadUInt32();
+          break;
+        }
       }
     }
   }
@@ -344,6 +419,10 @@ public sealed partial class Message : pb::IMessage<Message> {
       [pbr::OriginalName("LIST_ACCOUNT_RESPONSE")] ListAccountResponse = 1,
       [pbr::OriginalName("ACCOUNT_SETTINGS_REQUEST")] AccountSettingsRequest = 3,
       [pbr::OriginalName("ACCOUNT_SETTINGS_RESPONSE")] AccountSettingsResponse = 4,
+      [pbr::OriginalName("ENABLE_REQUEST")] EnableRequest = 5,
+      [pbr::OriginalName("DISABLE_REQUEST")] DisableRequest = 6,
+      [pbr::OriginalName("SET_LOGON_HOURS_REQUEST")] SetLogonHoursRequest = 7,
+      [pbr::OriginalName("ERROR_RESPONSE")] ErrorResponse = 8,
     }
 
   }
@@ -805,6 +884,163 @@ public sealed partial class AccountSettings : pb::IMessage<AccountSettings> {
           break;
         }
         case 26: {
+          LogonHours = input.ReadBytes();
+          break;
+        }
+      }
+    }
+  }
+
+}
+
+public sealed partial class SetHours : pb::IMessage<SetHours> {
+  private static readonly pb::MessageParser<SetHours> _parser = new pb::MessageParser<SetHours>(() => new SetHours());
+  private pb::UnknownFieldSet _unknownFields;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pb::MessageParser<SetHours> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::MessageReflection.Descriptor.MessageTypes[4]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public SetHours() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public SetHours(SetHours other) : this() {
+    name_ = other.name_;
+    logonHours_ = other.logonHours_;
+    _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public SetHours Clone() {
+    return new SetHours(this);
+  }
+
+  /// <summary>Field number for the "name" field.</summary>
+  public const int NameFieldNumber = 1;
+  private string name_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string Name {
+    get { return name_; }
+    set {
+      name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  /// <summary>Field number for the "logon_hours" field.</summary>
+  public const int LogonHoursFieldNumber = 2;
+  private pb::ByteString logonHours_ = pb::ByteString.Empty;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public pb::ByteString LogonHours {
+    get { return logonHours_; }
+    set {
+      logonHours_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override bool Equals(object other) {
+    return Equals(other as SetHours);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool Equals(SetHours other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (Name != other.Name) return false;
+    if (LogonHours != other.LogonHours) return false;
+    return Equals(_unknownFields, other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (Name.Length != 0) hash ^= Name.GetHashCode();
+    if (LogonHours.Length != 0) hash ^= LogonHours.GetHashCode();
+    if (_unknownFields != null) {
+      hash ^= _unknownFields.GetHashCode();
+    }
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void WriteTo(pb::CodedOutputStream output) {
+    if (Name.Length != 0) {
+      output.WriteRawTag(10);
+      output.WriteString(Name);
+    }
+    if (LogonHours.Length != 0) {
+      output.WriteRawTag(18);
+      output.WriteBytes(LogonHours);
+    }
+    if (_unknownFields != null) {
+      _unknownFields.WriteTo(output);
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int CalculateSize() {
+    int size = 0;
+    if (Name.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+    }
+    if (LogonHours.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeBytesSize(LogonHours);
+    }
+    if (_unknownFields != null) {
+      size += _unknownFields.CalculateSize();
+    }
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(SetHours other) {
+    if (other == null) {
+      return;
+    }
+    if (other.Name.Length != 0) {
+      Name = other.Name;
+    }
+    if (other.LogonHours.Length != 0) {
+      LogonHours = other.LogonHours;
+    }
+    _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public void MergeFrom(pb::CodedInputStream input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+          break;
+        case 10: {
+          Name = input.ReadString();
+          break;
+        }
+        case 18: {
           LogonHours = input.ReadBytes();
           break;
         }
