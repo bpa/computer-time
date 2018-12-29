@@ -1,6 +1,4 @@
-﻿using Google.Protobuf;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Management;
 
 namespace ComputerTime
@@ -14,24 +12,22 @@ namespace ComputerTime
             return obj;
         }
 
-        public static byte[] ToListAccountResponse(this HostAccounts accounts)
+        public static Message ToListAccountResponse(this HostAccounts accounts)
         {
-            Message response = new Message
+            return new Message
             {
                 Type = Message.Types.Type.ListAccountResponse,
                 HostAccounts = accounts
             };
-            return response.ToByteArray();
         }
 
-        public static byte[] ToAccountSettingsResponse(this AccountSettings accounts)
+        public static Message ToAccountSettingsResponse(this AccountSettings accounts)
         {
-            Message response = new Message
+            return new Message
             {
                 Type = Message.Types.Type.AccountSettingsResponse,
                 AccountSettings = accounts
             };
-            return response.ToByteArray();
         }
 
         public static byte[] FromGMT(this byte[] hours)

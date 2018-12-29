@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Google.Protobuf;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -13,7 +14,6 @@ namespace ComputerTime
         private const int port = 55512;
         private UdpClient listener;
         private Thread listenThread;
-        private Socket s;
         private Users users;
 
         internal BroadcastListener(Users users)
@@ -36,18 +36,17 @@ namespace ComputerTime
         internal void Listen()
         {
             IPEndPoint recieveEP = new IPEndPoint(IPAddress.Any, port);
-            IPEndPoint sendEP = new IPEndPoint(BroadcastAddress(), 23244);
-            s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             listener = new UdpClient(port);
 
             try
             {
                 while (true)
                 {
-                    byte[] bytes = listener.Receive(ref recieveEP);
                     try
                     {
-                        HandleMessage(bytes, sendEP);
+                        byte[] bytes = listener.Receive(ref recieveEP);
+                        s.SendTo(HandleMessage(bytes).ToByteArray(), recieveEP);
                     }
                     catch (Exception) { }
                 }
@@ -63,31 +62,27 @@ namespace ComputerTime
             }
         }
 
-        private void HandleMessage(byte[] bytes, IPEndPoint sendEP)
+        private Message HandleMessage(byte[] bytes)
         {
             Message message = Message.Parser.ParseFrom(bytes);
             switch (message.Type)
             {
                 case ListAccountRequest:
-                    s.SendTo(users.ListAccounts().ToListAccountResponse(), sendEP);
-                    break;
+                    return users.ListAccounts().ToListAccountResponse();
                 case AccountSettingsRequest:
-                    s.SendTo(users.GetAccountSettings(message.User).ToAccountSettingsResponse(), sendEP);
-                    break;
+                    return users.GetAccountSettings(message.User).ToAccountSettingsResponse();
                 case DisableRequest:
                     Native.SetEnabled(message.User, false);
-                    s.SendTo(users.GetAccountSettings(message.User).ToAccountSettingsResponse(), sendEP);
-                    break;
+                    return users.GetAccountSettings(message.User).ToAccountSettingsResponse();
                 case EnableRequest:
                     Native.SetEnabled(message.User, true);
-                    s.SendTo(users.GetAccountSettings(message.User).ToAccountSettingsResponse(), sendEP);
-                    break;
+                    return users.GetAccountSettings(message.User).ToAccountSettingsResponse();
                 case SetLogonHoursRequest:
                     SetHours set = message.SetHours;
                     Native.SetLogonHours(set.Name, set.LogonHours.ToByteArray().ToGMT());
-                    s.SendTo(users.GetAccountSettings(set.Name).ToAccountSettingsResponse(), sendEP);
-                    break;
+                    return users.GetAccountSettings(set.Name).ToAccountSettingsResponse();
             }
+            throw new Exception();
         }
 
         public IPAddress BroadcastAddress()

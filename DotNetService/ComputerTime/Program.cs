@@ -11,8 +11,8 @@ namespace ComputerTime
         static void Main()
         {
 #if DEBUG
-            //new BroadcastListener(new Users()).Listen();
-            Console.WriteLine(String.Join(", ", new Users().List().ToArray()));
+            new BroadcastListener(new Users()).Listen();
+            //Console.WriteLine(String.Join(", ", new Users().List().ToArray()));
 #else
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
