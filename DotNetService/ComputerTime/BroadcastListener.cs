@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -15,6 +16,7 @@ namespace ComputerTime
         private UdpClient listener;
         private Thread listenThread;
         private Users users;
+        private EventLog log;
 
         internal BroadcastListener(Users users)
         {
@@ -48,12 +50,20 @@ namespace ComputerTime
                         byte[] bytes = listener.Receive(ref recieveEP);
                         s.SendTo(HandleMessage(bytes).ToByteArray(), recieveEP);
                     }
-                    catch (Exception) { }
+                    catch (Exception e) {
+                        log.WriteEntry(e.ToString(), EventLogEntryType.Error);
+                    }
                 }
             }
-            catch (SocketException)
+            catch (SocketException se)
             {
+                log.WriteEntry(se.ToString(), EventLogEntryType.Error);
                 //This is what happens when Stop() is called
+            }
+            catch (Exception e)
+            {
+                log.WriteEntry(e.ToString(), EventLogEntryType.Error);
+                log.WriteEntry("Listen is terminating");
             }
             finally
             {

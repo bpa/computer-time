@@ -16,13 +16,12 @@ namespace ComputerTime
                 InitializeComponent();
 
                 eventLog = new EventLog();
-                if (!EventLog.SourceExists("MySource"))
+                if (!EventLog.SourceExists("ComputerTime"))
                 {
-                    EventLog.CreateEventSource(
-                        "MySource", "MyNewLog");
+                    EventLog.CreateEventSource("ComputerTime", "Application");
                 }
-                eventLog.Source = "MySource";
-                eventLog.Log = "MyNewLog";
+                eventLog.Source = "ComputerTime";
+                eventLog.Log = "Application";
         }
 
         protected override void OnStart(string[] args)
